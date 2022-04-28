@@ -4,10 +4,24 @@ declare(strict_types=1);
 
 namespace App\Service\Connection;
 
-final class ClickHouseConnection implements ConnectionInterface
+use ClickHouseDB\Client;
+
+final class ClickHouseConnection
 {
-    public function findWhereNotSatisfiesExpectations(string $table, string $where, string $expectation): array
+    private Client $client;
+
+    public function __construct(Client $client)
     {
-        // TODO: Implement findWhereNotSatisfiesExpectations() method.
+        $this->client = $client;
+    }
+
+    public function findWhereNotSatisfiesExpectations(string $table, string $where): array
+    {
+        $query = <<<QUERY
+            SELECT * from $table
+            $where
+        QUERY;
+
+        return $this->client->select($query)->rows();
     }
 }

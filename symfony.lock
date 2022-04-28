@@ -89,6 +89,9 @@
     "sebastian/diff": {
         "version": "4.0.4"
     },
+    "smi2/phpclickhouse": {
+        "version": "1.4.4"
+    },
     "symfony/cache": {
         "version": "v6.0.8"
     },

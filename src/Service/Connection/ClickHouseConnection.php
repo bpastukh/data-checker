@@ -17,9 +17,10 @@ final class ClickHouseConnection
 
     public function findWhereNotSatisfiesExpectations(string $table, string $where): array
     {
+        // count
         $query = <<<QUERY
             SELECT * from $table
-            $where
+            WHERE $where
         QUERY;
 
         return $this->client->select($query)->rows();

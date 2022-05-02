@@ -22,7 +22,6 @@ final class CheckClickHouseCommand extends Command
         parent::__construct();
     }
 
-
     protected function configure(): void
     {
         $this->addArgument('table', InputArgument::REQUIRED, 'Table select where');
@@ -36,6 +35,9 @@ final class CheckClickHouseCommand extends Command
         // where trackerId = 123
         // expectation usdProfitWithCommission = usdAmountWithCommission * 0.35
         // select * from eva_bet where trackerId = 123 and usdProfitWithCommission = usdAmountWithCommission * 0.35
+
+
+        // select filtered = 1 where player id = 111
         $table = (string)$input->getArgument('table');
         $where = (string)$input->getArgument('where');
         $result = $this->connection->findWhereNotSatisfiesExpectations($table, $where);

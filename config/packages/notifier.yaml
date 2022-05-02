@@ -1,4 +1,6 @@
 framework:
     notifier:
+        channel_policy:
+            high: ['chat/slack']
         chatter_transports:
             slack: '%env(SLACK_DSN)%'

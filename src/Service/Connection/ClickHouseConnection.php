@@ -15,14 +15,13 @@ final class ClickHouseConnection
         $this->client = $client;
     }
 
-    public function findWhereNotSatisfiesExpectations(string $table, string $where): array
+    public function findWhereNotSatisfiesExpectations(string $table, string $where): int
     {
-        // count
         $query = <<<QUERY
-            SELECT * from $table
+            SELECT count() count from $table
             WHERE $where
         QUERY;
 
-        return $this->client->select($query)->rows();
+        return (int)$this->client->select($query)->fetchOne('count');
     }
 }

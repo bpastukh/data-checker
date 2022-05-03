@@ -1,4 +1,5 @@
 /config/scenarios/
+!/config/scenarios/example.yml
 
 ###> symfony/framework-bundle ###
 /.env.local

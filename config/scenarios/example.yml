@@ -1,0 +1,2 @@
+# Scenario has to be in key-value format where the key is Check name and the value is query to execute.
+foo: bar

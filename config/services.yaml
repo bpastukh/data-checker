@@ -25,3 +25,7 @@ services:
     ClickHouseDB\Client:
         arguments:
             - { host: '%env(resolve:CLICKHOUSE_HOST)%', port: '%env(resolve:CLICKHOUSE_PORT)%', username: '%env(resolve:CLICKHOUSE_USER)%', password: '%env(resolve:CLICKHOUSE_PASS)%' }
+
+    App\Service\ScenarioService:
+        arguments:
+            $scenariosDir: '%kernel.project_dir%/config/scenarios'

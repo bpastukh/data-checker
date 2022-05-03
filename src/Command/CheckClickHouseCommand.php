@@ -27,8 +27,8 @@ final class CheckClickHouseCommand extends Command
 
     public function __construct(
         NotifierInterface $notifier,
-        ScenarioService   $scenarioService,
-        Client            $client
+        ScenarioService $scenarioService,
+        Client $client
     ) {
         parent::__construct();
         $this->notifier = $notifier;
@@ -44,27 +44,27 @@ final class CheckClickHouseCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $output->writeln(self::COMMAND_PREFIX . ' Command started');
+        $output->writeln(self::COMMAND_PREFIX.' Command started');
 
-        $scenarioName = (string)$input->getArgument('scenario');
-        $output->writeln(self::COMMAND_PREFIX . " Scenario name `$scenarioName`");
+        $scenarioName = (string) $input->getArgument('scenario');
+        $output->writeln(self::COMMAND_PREFIX." Scenario name `$scenarioName`");
         $scenario = $this->scenarioService->getScenario($scenarioName);
 
         /** @var string $query */
         foreach ($scenario as $check => $query) {
-            $output->writeln(self::COMMAND_PREFIX . " Check `$check`. Query `$query`");
+            $output->writeln(self::COMMAND_PREFIX." Check `$check`. Query `$query`");
 
             $result = $this->client->select($query)->rows();
             $resultCount = count($result);
-            $output->writeln(self::COMMAND_PREFIX . " Check `$check`. Result count $resultCount");
+            $output->writeln(self::COMMAND_PREFIX." Check `$check`. Result count $resultCount");
 
             if ($resultCount > 0) {
-                $output->writeln(self::COMMAND_PREFIX . " Check `$check` failed. Sending notification");
+                $output->writeln(self::COMMAND_PREFIX." Check `$check` failed. Sending notification");
                 $this->notifier->send(new Notification("Check `$check` failed. Result: $resultCount"));
             }
         }
 
-        $output->writeln(self::COMMAND_PREFIX . ' Command finished');
+        $output->writeln(self::COMMAND_PREFIX.' Command finished');
 
         return self::SUCCESS;
     }

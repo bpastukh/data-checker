@@ -6,6 +6,7 @@ namespace App\Service;
 
 use App\Exception\InvalidScenarioException;
 use Symfony\Component\Yaml\Yaml;
+use Throwable;
 
 final class ScenarioService
 {
@@ -16,14 +17,15 @@ final class ScenarioService
         $this->scenariosDir = $scenariosDir;
     }
 
+    /**
+     * @throws InvalidScenarioException
+     */
     public function getScenario(string $name): array
     {
-        $result = Yaml::parseFile("$this->scenariosDir/$name");
-
-        if (is_array($result)) {
-            return $result;
+        try {
+            return (array) Yaml::parseFile("$this->scenariosDir/$name");
+        } catch (Throwable $e) {
+            throw new InvalidScenarioException($name, $e);
         }
-
-        throw new InvalidScenarioException($name);
     }
 }

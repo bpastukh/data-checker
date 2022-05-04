@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Command;
 
-use App\Service\CheckClickHouseScenarioService;
+use App\Service\CheckScenarioServiceInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -16,8 +16,8 @@ final class CheckClickHouseCommand extends Command
     protected static $defaultName = 'app:check:click-house';
 
     public function __construct(
-        private CheckClickHouseScenarioService $checkClickHouseScenarioService,
-        private LoggerInterface                $logger
+        private CheckScenarioServiceInterface $checkScenarioService,
+        private LoggerInterface $logger
     ) {
         parent::__construct();
     }
@@ -51,11 +51,14 @@ final class CheckClickHouseCommand extends Command
             $sleepTime = 1;
         }
         $timesToExecute = (int) $input->getOption('executeTimes');
+        if ($timesToExecute <= 0) {
+            $timesToExecute = 1;
+        }
         $executedTimes = 0;
 
         while (true) {
             $this->logger->debug("Checking scenario `$scenarioName`");
-            $this->checkClickHouseScenarioService->check($scenarioName);
+            $this->checkScenarioService->check($scenarioName);
             $this->logger->debug("Scenario `$scenarioName` checked");
 
             $this->logger->debug("Sleeping for $sleepTime seconds");

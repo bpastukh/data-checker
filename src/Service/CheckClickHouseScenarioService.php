@@ -8,7 +8,7 @@ use ClickHouseDB\Client;
 use Symfony\Component\Notifier\Notification\Notification;
 use Symfony\Component\Notifier\NotifierInterface;
 
-final class CheckClickHouseScenarioService
+final class CheckClickHouseScenarioService implements CheckScenarioServiceInterface
 {
     public function __construct(
         private GetScenarioService $getScenarioService,

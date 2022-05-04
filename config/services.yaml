@@ -26,6 +26,8 @@ services:
         arguments:
             - { host: '%env(resolve:CLICKHOUSE_HOST)%', port: '%env(resolve:CLICKHOUSE_PORT)%', username: '%env(resolve:CLICKHOUSE_USER)%', password: '%env(resolve:CLICKHOUSE_PASS)%' }
 
-    App\Service\ScenarioService:
+    Symfony\Component\Yaml\Parser: ~
+
+    App\Service\GetScenarioService:
         arguments:
             $scenariosDir: '%kernel.project_dir%/config/scenarios'
